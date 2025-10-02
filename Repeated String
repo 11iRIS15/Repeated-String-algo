@@ -1,0 +1,65 @@
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+class Result
+{
+
+    /*
+     * Complete the 'repeatedString' function below.
+     *
+     * The function is expected to return a LONG_INTEGER.
+     * The function accepts following parameters:
+     *  1. STRING s
+     *  2. LONG_INTEGER n
+     */
+
+    public static long repeatedString(string s, long n)
+    {
+        // Step 1: Count the occurrences of 'a' in the string s
+        long countAInS = s.Count(c => c == 'a');
+        
+        // Step 2: Calculate how many complete repetitions of s fit in n
+        long completeRepetitions = n / s.Length;
+        
+        // Step 3: Calculate the count of 'a's contributed by complete repetitions
+        long totalCount = completeRepetitions * countAInS;
+        
+        // Step 4: Handle the remainder part
+        long remainder = n % s.Length;
+        totalCount += s.Substring(0, (int)remainder).Count(c => c == 'a');
+        
+        return totalCount;
+
+    }
+
+}
+
+class Solution
+{
+    public static void Main(string[] args)
+    {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        string s = Console.ReadLine();
+
+        long n = Convert.ToInt64(Console.ReadLine().Trim());
+
+        long result = Result.repeatedString(s, n);
+
+        textWriter.WriteLine(result);
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
